@@ -1,10 +1,13 @@
 ﻿using System;
+using Ninject.Modules;
+
 namespace QuickLog.Modules
 {
-    public class QuickLogCoreModule
+    public class QuickLogCoreModule : NinjectModule
     {
-        public QuickLogCoreModule()
+        public override void Load()
         {
+
         }
     }
 }

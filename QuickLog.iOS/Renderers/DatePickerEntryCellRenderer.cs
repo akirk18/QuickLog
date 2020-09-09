@@ -1,10 +1,98 @@
 ﻿using System;
+using Foundation;
+using QuickLog.Controls;
+using QuickLog.iOS.Renderers;
+using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
+
+[assembly: ExportRenderer(typeof(DatePickerEntryCell), typeof(DatePickerEntryCellRenderer))]
 namespace QuickLog.iOS.Renderers
 {
-    public class DatePickerEntryCellRenderer
+    public class DatePickerEntryCellRenderer : EntryCellRenderer
     {
-        public DatePickerEntryCellRenderer()
+        public override UITableViewCell GetCell(Cell item, UITableViewCell reusableCell, UITableView tv)
         {
+            var cell = base.GetCell(item, reusableCell, tv);
+            var datePickerCell = (DatePickerEntryCell)item;
+            UITextField textField = null;
+
+            if (cell != null)
+                textField = (UITextField)cell.ContentView.Subviews[0];
+
+            // Default datepicker attributes
+            var mode = UIDatePickerMode.Date;
+            var displayFormat = "d";
+            var date = NSDate.Now;
+            var isLocalTime = false;
+
+            // Update datepicker based on Cell's properties
+            if (datePickerCell != null)
+            {
+                if (datePickerCell.Date.Kind == DateTimeKind.Unspecified)
+                {
+                    var local = new DateTime(datePickerCell.Date.Ticks, DateTimeKind.Local);
+                    date = (NSDate)local;
+                }
+                else
+                {
+                    date = (NSDate)datePickerCell.Date;
+                }
+
+                isLocalTime = datePickerCell.Date.Kind == DateTimeKind.Local || datePickerCell.Date.Kind == DateTimeKind.Unspecified;
+            }
+
+            // Create iOS datepicker
+            var datePicker = new UIDatePicker
+            {
+                Mode = mode,
+                BackgroundColor = UIColor.White,
+                Date = date,
+                TimeZone = isLocalTime ? NSTimeZone.LocalTimeZone : new NSTimeZone("UTC")
+            };
+
+            // Create a toolbar with a done button that will close the datepicker and set the value
+            var done = new UIBarButtonItem("Done", UIBarButtonItemStyle.Done, (s, e) =>
+            {
+                var pickedDate = (DateTime)datePicker.Date;
+
+                if (isLocalTime)
+                    pickedDate = pickedDate.ToLocalTime();
+
+                // Update the value of the UITextField within the Cell
+                if (textField != null)
+                {
+                    textField.Text = pickedDate.ToString(displayFormat);
+                    textField.ResignFirstResponder();
+                }
+
+                // Update the date property on the Cell
+                if (datePickerCell != null)
+                {
+                    datePickerCell.Date = pickedDate;
+                    datePickerCell.SendCompleted();
+                }
+            });
+
+            var toolbar = new UIToolbar
+            {
+                BarStyle = UIBarStyle.Default,
+                Translucent = false
+            };
+            toolbar.SizeToFit();
+            toolbar.SetItems(new[] { done }, true);
+
+            // Set the input view, toolbar and initial value for the Cell's UITextField
+            if (textField != null)
+            {
+                textField.InputView = datePicker;
+                textField.InputAccessoryView = toolbar;
+
+                if (datePickerCell != null)
+                    textField.Text = datePickerCell.Date.ToString(displayFormat);
+            }
+
+            return cell;
         }
     }
 }

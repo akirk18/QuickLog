@@ -1,10 +1,16 @@
 ﻿using System;
+using Xamarin.Forms;
+
 namespace QuickLog.Controls
 {
-    public class DatePickerEntryCell
+    public class DatePickerEntryCell : EntryCell
     {
-        public DatePickerEntryCell()
+        public static readonly BindableProperty DateProperty = BindableProperty.Create(nameof(Date), typeof(DateTime), typeof(DatePickerEntryCell), DateTime.Now, BindingMode.TwoWay);
+
+        public DateTime Date
         {
+            get => (DateTime)GetValue(DateProperty);
+            set => SetValue(DateProperty, value);
         }
     }
 }
