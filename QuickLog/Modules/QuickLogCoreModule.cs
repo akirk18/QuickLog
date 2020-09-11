@@ -1,5 +1,6 @@
 ﻿using System;
 using Ninject.Modules;
+using QuickLog.ViewModels;
 
 namespace QuickLog.Modules
 {
@@ -7,7 +8,8 @@ namespace QuickLog.Modules
     {
         public override void Load()
         {
-
+            Bind<HomeViewModel>().ToSelf();
+            Bind<NewEntryViewModel>().ToSelf();
         }
     }
 }

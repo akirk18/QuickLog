@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
-using Syncfusion.XForms.Pickers.iOS;
 using UIKit;
 
 namespace QuickLog.iOS
@@ -25,7 +24,6 @@ namespace QuickLog.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-            SfDatePickerRenderer.Init();
             return base.FinishedLaunching(app, options);
         }
     }
