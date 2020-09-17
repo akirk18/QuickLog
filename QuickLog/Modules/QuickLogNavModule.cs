@@ -11,7 +11,7 @@ namespace QuickLog.Modules
         public override void Load()
         {
             var navService = new NavService();
-            navService.RegisterViewMapping(typeof(HomeViewModel), typeof(HomePage));
+            navService.RegisterViewMapping(typeof(LogDetailViewModel), typeof(LogDetailPage));
             navService.RegisterViewMapping(typeof(NewEntryViewModel), typeof(NewEntryPage));
 
             Bind<INavService>().ToMethod(x => navService).InSingletonScope();

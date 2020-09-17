@@ -5,11 +5,11 @@ using Xamarin.Forms;
 
 namespace QuickLog.Views
 {
-    public partial class HomePage : ContentPage
+    public partial class LogDetailPage : ContentPage
     {
-        HomeViewModel ViewModel => BindingContext as HomeViewModel;
+        LogDetailViewModel ViewModel => BindingContext as LogDetailViewModel;
 
-        public HomePage()
+        public LogDetailPage()
         {
             InitializeComponent();
         }

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace QuickLog.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    public class LogDetailViewModel : BaseViewModel
     {
         private ObservableCollection<LogEntry> _logEntries;
         public ObservableCollection<LogEntry> LogEntries
@@ -24,7 +24,7 @@ namespace QuickLog.ViewModels
             await NavService.NavigateTo<NewEntryViewModel>();
         });
 
-        public HomeViewModel(INavService navService) : base(navService)
+        public LogDetailViewModel(INavService navService) : base(navService)
         {
             LogEntries = new ObservableCollection<LogEntry>();
         }

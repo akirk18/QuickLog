@@ -26,8 +26,8 @@ namespace QuickLog
 
         private void SetMainPage()
         {
-            var mainPage = new NavigationPage(new HomePage());
-            mainPage.BindingContext = Kernel.Get<HomeViewModel>();
+            var mainPage = new NavigationPage(new LogDetailPage());
+            mainPage.BindingContext = Kernel.Get<LogDetailViewModel>();
             var navService = Kernel.Get<INavService>() as NavService;
             navService.XamarinFormsNav = mainPage.Navigation;
             MainPage = mainPage;

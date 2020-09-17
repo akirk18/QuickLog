@@ -8,7 +8,7 @@ namespace QuickLog.Modules
     {
         public override void Load()
         {
-            Bind<HomeViewModel>().ToSelf();
+            Bind<LogDetailViewModel>().ToSelf();
             Bind<NewEntryViewModel>().ToSelf();
         }
     }
